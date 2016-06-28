@@ -1,8 +1,11 @@
-
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "bento/ubuntu-16.04"
   config.vm.network :forwarded_port, guest: 8080, host: 4567
-
+  
+  # Fix unattended updates locking dpkg : https://github.com/chef/bento/issues/609
+  config.vm.provision "shell", inline: "rm /var/lib/apt/lists/lock"
+  config.vm.provision "shell", inline: "rm /var/cache/apt/archives/lock"
+  
   config.vm.provision "docker" do |d|
     # Set build-time variables
     build_image_args =  "-t helloworld"
