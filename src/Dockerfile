@@ -4,6 +4,7 @@ FROM centos:centos6
 RUN yum install -y epel-release
 # Install Node.js and npm
 RUN yum install -y nodejs npm
+RUN npm config set strict-ssl false
 
 # Install app dependencies
 COPY package.json /src/package.json
